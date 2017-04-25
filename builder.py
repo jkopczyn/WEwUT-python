@@ -1,4 +1,4 @@
-class Customer_Builder(object):
+class CustomerBuilder(object):
     def __init__(self, name="Jim", rentals=None, builders=None):
         self.name = name
         if rentals:
@@ -8,8 +8,8 @@ class Customer_Builder(object):
         else:
             self.rentals = []
 
-    def build_customer(self):
-        result = Customer.new(self.name)
+    def build(self):
+        result = Customer(self.name)
         for rental in self.rentals:
             result.add_rental(rental)
         return result
@@ -17,6 +17,7 @@ class Customer_Builder(object):
 class Customer(object):
     def __init__(self, name):
         self.name = name
+        self.rentals = []
 
     def add_rental(self, rental):
         self.rentals.append(rental)
@@ -25,21 +26,21 @@ class Customer(object):
         return self.rentals
 
     def statement(self):
-        result = "Rental record for {1}\n".format(self.name)
-        result += "\n".join("\t {1}".format(r.get_line_item()) for
+        result = "Rental record for {0}\n".format(self.name)
+        result += "\n".join("\t {0}".format(r.get_line_item()) for
                 r in self.rentals)
-        result += ("\nAmount owed is {1}\n" +
-        "You earned {2} frequent renter points").format(
+        result += ("\nAmount owed is {0}\n" +
+        "You earned {1} frequent renter points").format(
                 self.get_total_charge(),
                 self.get_total_points())
         return result
 
     def html_statement(self):
         result = "<h1>Rental record for </em>{1}</em></h1>\n".format(self.name)
-        result += "\n".join("<p>{1}</p>".format(r.get_line_item()) for
+        result += "\n".join("<p>{0}</p>".format(r.get_line_item()) for
                 r in self.rentals)
-        result += ("\n<p>Amount owed is <i>{1}</i></p>\n" +
-        "<p>You earned <i>{2} frequent renter points</i></p>").format(
+        result += ("\n<p>Amount owed is <i>{0}</i></p>\n" +
+        "<p>You earned <i>{1} frequent renter points</i></p>").format(
                 self.get_total_charge(),
                 self.get_total_points())
         return result
@@ -49,3 +50,6 @@ class Customer(object):
 
     def get_total_points(self):
         return sum(r.get_points() for r in self.rentals)
+
+a = CustomerBuilder()
+b = a.build()
