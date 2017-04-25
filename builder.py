@@ -53,3 +53,26 @@ class Customer(object):
 
 a = CustomerBuilder()
 b = a.build()
+
+class RentalBuilder(object):
+    def __init__(self, movie=None, days=3, builder=None):
+        self.movie = movie
+        self.days = days
+        if builder and not movie:
+            self.movie = builder.build()
+
+    def build(self):
+        return Rental(self.movie, self.days)
+
+TYPE_NEW_RELEASE="New Release"
+TYPES = set([TYPE_NEW_RELEASE])
+
+class MovieBuilder(object):
+    def __init__(self, name="Godfather 4", movietype=TYPE_NEW_RELEASE):
+        self.name = name
+        if movietype not in TYPES:
+            raise "Argument Error: invalid movie type"
+        self.type = movietype
+
+    def build(self):
+        return Movie(self.name, self.type)
