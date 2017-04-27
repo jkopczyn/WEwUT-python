@@ -27,7 +27,7 @@ class TestCustomer(TestCase):
     def rental_info(self, starts_with, ends_with, rentals):
         result = ""
         for rental in rentals:
-            result +="{0}{1}\t{2}{3}\n".format(
+            result +="{0}{1} {2}{3}\n".format(
                     starts_with,
                     rental.movie.get_title(),
                     rental.get_charge(),
