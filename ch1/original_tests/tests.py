@@ -1,15 +1,15 @@
-from builder import CustomerBuilder
-from builder import RentalBuilder
-from builder import MovieBuilder
-from customer import Customer
-from movie import Movie
-from movie import MOVIE_TYPES
-from movie import TYPE_NEW_RELEASE
-from movie import TYPE_REGULAR
-from movie import TYPE_CHILDREN
-from movie import TYPE_UNKNOWN
-from object_mother import ObjectMother
-from rental import Rental
+from src.builder import CustomerBuilder
+from src.builder import RentalBuilder
+from src.builder import MovieBuilder
+from src.customer import Customer
+from src.movie import Movie
+from src.movie import MOVIE_TYPES
+from src.movie import TYPE_NEW_RELEASE
+from src.movie import TYPE_REGULAR
+from src.movie import TYPE_CHILDREN
+from src.movie import TYPE_UNKNOWN
+from src.object_mother import ObjectMother
+from src.rental import Rental
 from unittest import TestCase
 import unittest
 
