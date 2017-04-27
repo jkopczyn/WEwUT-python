@@ -79,16 +79,65 @@ class TestCustomer(TestCase):
                     ]).build().statement()
                 )
 
-    def test_html_statement(self):
-        for c in self.customers:
-            self.assertEqual(
-                    self.exp_statement(
-                        "<h1>Rental record for <em>{0}</em></h1>\n{1}" +
-                        "<p>Amount owed is <em>{2}</em></p>\n" +
-                        "<p>You earned <em>{3} frequent renter points</em></p>",
-                        c,
-                        self.rental_info("<p>", "</p>", c.get_rentals())),
-                    c.html_statement())
+    def test_no_rentals_html_statement(self):
+        self.assertEqual(
+                "<h1>Rental record for <em>David</em></h1>\n" +
+                "<p>Amount owed is <em>0.0</em></p>\n" +
+                "<p>You earned <em>0 frequent renter points</em></p>",
+                CustomerBuilder(name="David").build().html_statement()
+                )
+
+    def test_one_new_release_html_statement(self):
+        self.assertEqual(
+                "<h1>Rental record for <em>John</em></h1>\n" +
+                "<p>Godfather 4 9.0</p>\n" +
+                "<p>Amount owed is <em>9.0</em></p>\n" +
+                "<p>You earned <em>2 frequent renter points</em></p>",
+                CustomerBuilder(name="John", builder=RentalBuilder(
+                    builder=MovieBuilder(movietype=TYPE_NEW_RELEASE)
+                    )
+                    ).build().html_statement()
+                )
+
+    def test_all_rental_types_html_statement(self):
+        self.assertEqual(
+                "<h1>Rental record for <em>Pat</em></h1>\n" +
+                "<p>Godfather 4 9.0</p>\n" +
+                "<p>Scarface 3.5</p>\n" +
+                "<p>Lion King 1.5</p>\n" +
+                "<p>Amount owed is <em>14.0</em></p>\n" +
+                "<p>You earned <em>4 frequent renter points</em></p>",
+                CustomerBuilder(name="Pat", builders=[
+                    RentalBuilder(
+                        builder=MovieBuilder(movietype=TYPE_NEW_RELEASE)
+                    ),
+                    RentalBuilder(
+                        builder=MovieBuilder(name="Scarface",
+                            movietype=TYPE_REGULAR)
+                    ),
+                    RentalBuilder(
+                        builder=MovieBuilder(name="Lion King",
+                            movietype=TYPE_CHILDREN)
+                    )]).build().html_statement()
+                )
+
+    def test_new_release_and_regular_html_statement(self):
+        self.assertEqual(
+                "<h1>Rental record for <em>Steve</em></h1>\n" +
+                "<p>Godfather 4 9.0</p>\n" +
+                "<p>Scarface 3.5</p>\n" +
+                "<p>Amount owed is <em>12.5</em></p>\n" +
+                "<p>You earned <em>3 frequent renter points</em></p>",
+                CustomerBuilder(name="Steve", builders=[
+                    RentalBuilder(
+                        builder=MovieBuilder(movietype=TYPE_NEW_RELEASE)
+                    ),
+                    RentalBuilder(
+                        builder=MovieBuilder(name="Scarface",
+                            movietype=TYPE_REGULAR)
+                    )
+                    ]).build().html_statement()
+                )
 
     def test_invalid_title(self):
         with self.assertRaises(TypeError):
