@@ -22,7 +22,7 @@ class TestCustomer(TestCase):
     def test_no_rentals_statement(self):
         self.assertEqual(
                 "Rental record for David\n" +
-                "Amount owed is 0.0\n" +
+                "Amount owed is 0\n" +
                 "You earned 0 frequent renter points",
                 CustomerBuilder(name="David").build().statement()
                 )
@@ -82,7 +82,7 @@ class TestCustomer(TestCase):
     def test_no_rentals_html_statement(self):
         self.assertEqual(
                 "<h1>Rental record for <em>David</em></h1>\n" +
-                "<p>Amount owed is <em>0.0</em></p>\n" +
+                "<p>Amount owed is <em>0</em></p>\n" +
                 "<p>You earned <em>0 frequent renter points</em></p>",
                 CustomerBuilder(name="David").build().html_statement()
                 )

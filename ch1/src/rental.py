@@ -10,4 +10,4 @@ class Rental(object):
         return self.movie.get_points(self.days)
 
     def get_line_item(self):
-        return "{0}\t{1}".format(self.movie.get_title(), self.get_charge())
+        return "{0} {1}".format(self.movie.get_title(), self.get_charge())

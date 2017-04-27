@@ -34,12 +34,13 @@ class Price(object):
     def __init__(self):
         self.min_days = 1
         self.daily_rate = 1.5
+        self.min_price = self.daily_rate
 
     def get_charge(self, days_rented):
         if days_rented <= self.min_days:
-            return self.daily_rate
+            return self.min_price
         else:
-            return self.daily_rate * (1 + days_rented - self.min_days)
+            return self.min_price+(days_rented - self.min_days)*self.daily_rate
 
     def get_points(self, days_rented=1):
         return 1
@@ -53,11 +54,14 @@ class RegularPrice(Price):
     def __init__(self):
         super(RegularPrice, self).__init__()
         self.min_days = 2
+        self.min_price = 2.0
 
 class NewReleasePrice(Price):
     def __init__(self):
         super(NewReleasePrice, self).__init__()
-        self.daily_rate = 3
+        self.daily_rate = 3.0
+        self.min_days = 0
+        self.min_price = 0
 
     def get_points(self, days_rented):
         return 2 if days_rented > 1 else 1
