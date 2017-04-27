@@ -4,10 +4,10 @@ class Rental(object):
         self.days = days
 
     def get_charge(self):
-        self.movie.get_charge(self.days)
+        return self.movie.get_charge(self.days)
 
     def get_points(self):
-        self.movie.get_points(self.days)
+        return self.movie.get_points(self.days)
 
     def get_line_item(self):
-        return "{0} {1}".format(self.movie.title, self.get_charge())
+        return "{0}\t{1}".format(self.movie.get_title(), self.get_charge())

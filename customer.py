@@ -11,20 +11,20 @@ class Customer(object):
 
     def statement(self):
         result = "Rental record for {0}\n".format(self.name)
-        result += "\n".join("\t {0}".format(r.get_line_item()) for
+        result += "".join("\t{0}\n".format(r.get_line_item()) for
                 r in self.rentals)
-        result += ("\nAmount owed is {0}\n" +
+        result += ("Amount owed is {0}\n" +
         "You earned {1} frequent renter points").format(
                 self.get_total_charge(),
                 self.get_total_points())
         return result
 
     def html_statement(self):
-        result = "<h1>Rental record for </em>{0}</em></h1>\n".format(self.name)
-        result += "\n".join("<p>{0}</p>".format(r.get_line_item()) for
+        result = "<h1>Rental record for <em>{0}</em></h1>\n".format(self.name)
+        result += "".join("<p>{0}</p>\n".format(r.get_line_item()) for
                 r in self.rentals)
-        result += ("\n<p>Amount owed is <i>{0}</i></p>\n" +
-        "<p>You earned <i>{1} frequent renter points</i></p>").format(
+        result += ("<p>Amount owed is <em>{0}</em></p>\n" +
+        "<p>You earned <em>{1} frequent renter points</em></p>").format(
                 self.get_total_charge(),
                 self.get_total_points())
         return result

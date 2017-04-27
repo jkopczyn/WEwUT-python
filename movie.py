@@ -11,6 +11,9 @@ class Movie(object):
             raise TypeError("invalid movie type")
         self.price = self.price_code(movietype)
 
+    def get_title(self):
+        return self.name
+
     def price_code(self, price_type):
         if price_type is TYPE_CHILDREN:
             return ChildrensPrice()

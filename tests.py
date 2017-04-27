@@ -32,7 +32,7 @@ class TestCustomer(TestCase):
         for rental in rentals:
             result +="{0}{1}\t{2}{3}\n".format(
                     starts_with,
-                    rental.get_movie().get_title(),
+                    rental.movie.get_title(),
                     rental.get_charge(),
                     ends_with)
         return result
@@ -65,7 +65,7 @@ class TestCustomer(TestCase):
                         "<p>Amount owed is <em>{2}</em></p>\n" +
                         "<p>You earned <em>{3} frequent renter points</em></p>",
                         c,
-                        self.rental_info("\t", "", c.get_rentals())),
+                        self.rental_info("<p>", "</p>", c.get_rentals())),
                     c.html_statement())
 
     def test_invalid_title(self):
