@@ -28,21 +28,29 @@ class TestCustomer(TestCase):
         self.customers = [self.david, self.john, self.pat, self.steve]
 
     def rental_info(self, starts_with, ends_with, rentals):
-        pass
+        result = ""
+        for rental in rentals:
+            result +="{0}{1}\t{2}{3}\n".format(
+                    starts_with,
+                    rental.get_movie().get_title(),
+                    rental.get_charge(),
+                    ends_with)
+        return result
 
     def exp_statement(self, format_string, customer, rental_info):
-        pass
+        return format_string.format(customer.name, rental_info,
+                customer.get_total_charge(), customer.get_total_points())
 
     def test_get_name(self):
-        self.assertEqual(self.david_name, self.david.get_name())
-        self.assertEqual(self.john_name,  self.john.get_name())
-        self.assertEqual(self.pat_name,   self.pat.get_name())
-        self.assertEqual(self.steve_name, self.steve.get_name())
+        self.assertEqual(self.david_name, self.david.name)
+        self.assertEqual(self.john_name,  self.john.name)
+        self.assertEqual(self.pat_name,   self.pat.name)
+        self.assertEqual(self.steve_name, self.steve.name)
 
     def test_statement(self):
         for c in self.customers:
             self.assertEqual(
-                    self.exp_statement("Rental record for {0}" +
+                    self.exp_statement("Rental record for {0}\n" +
                         "{1}Amount owed is {2}\n" +
                         "You earned {3} frequent renter points",
                         c,
@@ -50,11 +58,20 @@ class TestCustomer(TestCase):
                     c.statement())
 
     def test_html_statement(self):
-        assert False
+        for c in self.customers:
+            self.assertEqual(
+                    self.exp_statement(
+                        "<h1>Rental record for <em>{0}</em></h1>\n{1}" +
+                        "<p>Amount owed is <em>{2}</em></p>\n" +
+                        "<p>You earned <em>{3} frequent renter points</em></p>",
+                        c,
+                        self.rental_info("\t", "", c.get_rentals())),
+                    c.html_statement())
 
     def test_invalid_title(self):
-        with self.assertRaises(ArgumentError):
-            pass
+        with self.assertRaises(TypeError):
+            ObjectMother.customer_with_no_rentals("Bob").add_rental(
+                    Rental(Movie("Crazy, Stupid, Love.", TYPE_UNKNOWN), 4))
 
 
 if __name__ == '__main__':

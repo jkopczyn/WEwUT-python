@@ -8,7 +8,7 @@ class Movie(object):
     def __init__(self, name, movietype=TYPE_UNKNOWN):
         self.name = name
         if movietype not in MOVIE_TYPES:
-            raise "Argument Error: invalid movie type"
+            raise TypeError("invalid movie type")
         self.price = self.price_code(movietype)
 
     def price_code(self, price_type):
@@ -19,7 +19,7 @@ class Movie(object):
         elif price_type is TYPE_REGULAR:
             return RegularPrice()
         else:
-            raise "Invalid Movie Price"
+            raise TypeError("invalid movie type")
 
     def get_charge(self, days_rented):
         return self.price.get_charge(days_rented)

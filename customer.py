@@ -20,7 +20,7 @@ class Customer(object):
         return result
 
     def html_statement(self):
-        result = "<h1>Rental record for </em>{1}</em></h1>\n".format(self.name)
+        result = "<h1>Rental record for </em>{0}</em></h1>\n".format(self.name)
         result += "\n".join("<p>{0}</p>".format(r.get_line_item()) for
                 r in self.rentals)
         result += ("\n<p>Amount owed is <i>{0}</i></p>\n" +
