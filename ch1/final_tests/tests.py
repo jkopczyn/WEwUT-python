@@ -141,8 +141,11 @@ class TestCustomer(TestCase):
 
     def test_invalid_title(self):
         with self.assertRaises(TypeError):
-            ObjectMother.customer_with_no_rentals("Bob").add_rental(
-                    Rental(Movie("Crazy, Stupid, Love.", TYPE_UNKNOWN), 4))
+            CustomerBuilder(name="John",
+                    builder=RentalBuilder(builder=MovieBuilder(
+                        movietype=TYPE_UNKNOWN)
+                        )
+                    ).build()
 
 
 if __name__ == '__main__':
