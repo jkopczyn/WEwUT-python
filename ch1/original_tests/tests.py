@@ -1,6 +1,3 @@
-from src.builder import CustomerBuilder
-from src.builder import RentalBuilder
-from src.builder import MovieBuilder
 from src.customer import Customer
 from src.movie import Movie
 from src.movie import MOVIE_TYPES

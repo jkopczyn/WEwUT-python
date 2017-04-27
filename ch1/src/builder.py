@@ -8,12 +8,14 @@ from movie import TYPE_CHILDREN
 from movie import TYPE_UNKNOWN
 
 class CustomerBuilder(object):
-    def __init__(self, name="Jim", rentals=None, builders=None):
+    def __init__(self, name="Jim", rentals=None, builders=None, builder=None):
         self.name = name
         if rentals:
             self.rentals = rentals
         elif builders:
             self.rentals = [builder.build() for builder in builders]
+        elif builder:
+            self.rentals = [builder.build()]
         else:
             self.rentals = []
 
