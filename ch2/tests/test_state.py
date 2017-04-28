@@ -7,7 +7,7 @@ from src.store  import Store
 from unittest import TestCase
 import unittest
 
-class RentalTest(TestCase):
+class TestRental(TestCase):
 
     def test_rental_is_started_if_in_store(self):
         movie = MovieBuilder().build()

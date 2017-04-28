@@ -1,29 +1,11 @@
-from customer import Customer
-from rental import Rental
 from movie import Movie
 from movie import MOVIE_TYPES
 from movie import TYPE_NEW_RELEASE
 from movie import TYPE_REGULAR
 from movie import TYPE_CHILDREN
 from movie import TYPE_UNKNOWN
-
-class CustomerBuilder(object):
-    def __init__(self, name="Jim", rentals=None, builders=None, builder=None):
-        self.name = name
-        if rentals:
-            self.rentals = rentals
-        elif builders:
-            self.rentals = [builder.build() for builder in builders]
-        elif builder:
-            self.rentals = [builder.build()]
-        else:
-            self.rentals = []
-
-    def build(self):
-        result = Customer(self.name)
-        for rental in self.rentals:
-            result.add_rental(rental)
-        return result
+from rental import Rental
+from store  import Store
 
 class RentalBuilder(object):
     def __init__(self, movie=None, days=3, builder=None):
