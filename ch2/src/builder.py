@@ -25,9 +25,6 @@ class CustomerBuilder(object):
             result.add_rental(rental)
         return result
 
-a = CustomerBuilder()
-b = a.build()
-
 class RentalBuilder(object):
     def __init__(self, movie=None, days=3, builder=None):
         self.movie = movie
@@ -38,9 +35,6 @@ class RentalBuilder(object):
     def build(self):
         return Rental(self.movie, self.days)
 
-c = RentalBuilder()
-d = c.build()
-
 class MovieBuilder(object):
     def __init__(self, name="Godfather 4", movietype=TYPE_NEW_RELEASE):
         self.name = name
@@ -49,5 +43,15 @@ class MovieBuilder(object):
     def build(self):
         return Movie(self.name, self.type)
 
-e = MovieBuilder()
-f = e.build()
+class StoreBuilder(object):
+    def __init__(self, movies=[], movie=None, builders=[], builder=None):
+        self.movies = movies
+        if movie:
+            self.movies += [movie]
+        self.builders = builders
+        if builder:
+            self.builders += [builder]
+
+    def build(self):
+        return Store(self.movies + [b.build() for b in self.builders])
+
