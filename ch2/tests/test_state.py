@@ -24,3 +24,6 @@ class TestRental(TestCase):
         rental.start(store)
         self.assertFalse(rental.is_started())
         self.assertEqual(store.get_availability(movie), 0)
+
+if __name__ == '__main__':
+    unittest.main()
