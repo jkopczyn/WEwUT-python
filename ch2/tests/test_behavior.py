@@ -20,11 +20,15 @@ class TestRental(TestCase):
         rental.start(store)
         self.assertTrue(rental.is_started())
         store.check_out.assert_called_with(movie)
-        pass
 
     def test_rental_does_not_start_if_not_available(self):
         movie = MovieBuilder().build()
         rental = RentalBuilder(movie=movie).build()
+        store = Mock(spec_set=Store)
+        store.configure_mock(**{'get_availability.return_value': 0})
+        rental.start(store)
+        self.assertFalse(rental.is_started())
+        store.check_out.assert_not_called()
         pass
 
 if __name__ == '__main__':
