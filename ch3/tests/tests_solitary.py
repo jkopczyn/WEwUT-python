@@ -38,7 +38,9 @@ class TestCustomer(TestCase):
                 "\tNone\n" +
                 "Amount owed is 0.0\n" +
                 "You earned 0 frequent renter points",
-                CustomerBuilder(name="Jim", rental=Mock(spec_set=Rental)
+                CustomerBuilder(rental=Mock(spec_set=Rental,
+                    **{"get_charge.return_value":0.,
+                    "get_points.return_value":0})
                     ).build().statement()
                 )
 
