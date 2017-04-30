@@ -17,7 +17,8 @@ import unittest
 
 class RentalMock(Mock):
     def __call__(self, *args, **kwargs):
-        mock = super(RentalMock, self).__call__(*args, spec_set=Rental, **kwargs)
+        super(RentalMock, self).__call__(*args, spec_set=Rental, **kwargs)
+        self.get_line_item.return_value=" "
         self.get_charge.return_value=0.0
         self.get_points.return_value=0
         return self
@@ -45,10 +46,7 @@ class TestCustomer(TestCase):
                 "\tNone\n" +
                 "Amount owed is 0.0\n" +
                 "You earned 0 frequent renter points",
-                CustomerBuilder(rental=Mock(spec_set=Rental,
-                    **{"get_charge.return_value":0.,
-                    "get_points.return_value":0})
-                    ).build().statement()
+                CustomerBuilder(rental=RentalMock()).build().statement()
                 )
 
     def test_all_rental_types_statement(self):
