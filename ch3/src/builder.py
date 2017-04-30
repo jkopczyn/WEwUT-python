@@ -10,13 +10,13 @@ from store  import Store
 
 class CustomerBuilder(object):
     def __init__(self, name="Jim",
-            rentals=[], rental=None,
-            builders=[], builder=None):
+            rentals=None, rental=None,
+            builders=None, builder=None):
         self.name = name
-        self.rentals = rentals
+        self.rentals = rentals or []
         if rental:
             self.rentals += [rental]
-        self.builders = builders
+        self.builders = builders or []
         if builder:
             self.builders += [builder]
 
@@ -45,11 +45,13 @@ class MovieBuilder(object):
         return Movie(self.name, self.type)
 
 class StoreBuilder(object):
-    def __init__(self, movies=[], movie=None, builders=[], builder=None):
-        self.movies = movies
+    def __init__(self,
+            movies=None, movie=None,
+            builders=None, builder=None):
+        self.movies = movies or []
         if movie:
             self.movies += [movie]
-        self.builders = builders
+        self.builders = builders or []
         if builder:
             self.builders += [builder]
 
