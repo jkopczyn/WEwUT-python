@@ -1,6 +1,6 @@
 # Working Effectively with Unit Tests - Python
 
-A Python companion to Working Effectively with Unit Tests. The Java examples used in WEwUT are translated to Python (using `unittest`)  for use by non-Java folk.
+A Python companion to [Working Effectively with Unit Tests](https://leanpub.com/wewut). The Java examples used in WEwUT are translated to Python 2.7 (using `unittest` and `mock`)  for use by non-Java folk.
 
 To run tests for a chapter:
 
