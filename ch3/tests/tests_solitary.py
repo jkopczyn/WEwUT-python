@@ -15,7 +15,14 @@ import mock
 from unittest import TestCase
 import unittest
 
-#Copied from the state at the end of chapter 1.
+class RentalMock(Mock):
+    def __call__(self, *args, **kwargs):
+        mock = super(RentalMock, self).__call__(*args, spec_set=Rental, **kwargs)
+        self.get_charge.return_value=0.0
+        self.get_points.return_value=0
+        return self
+
+a = RentalMock()
 
 class TestCustomer(TestCase):
     def test_get_name(self):
