@@ -141,14 +141,10 @@ class TestCustomer(TestCase):
                     ]).build().html_statement()
                 )
 
+class TestMovie(TestCase):
     def test_invalid_title(self):
         with self.assertRaises(TypeError):
-            CustomerBuilder(name="John",
-                    builder=RentalBuilder(builder=MovieBuilder(
-                        movietype=TYPE_UNKNOWN)
-                        )
-                    ).build()
-
+            MovieBuilder(movietype=TYPE_UNKNOWN).build()
 
 if __name__ == '__main__':
     unittest.main()
