@@ -9,6 +9,9 @@ from src.movie import TYPE_REGULAR
 from src.movie import TYPE_CHILDREN
 from src.movie import TYPE_UNKNOWN
 from src.rental import Rental
+
+from mock import Mock
+import mock
 from unittest import TestCase
 import unittest
 
@@ -23,21 +26,19 @@ class TestCustomer(TestCase):
 
     def test_no_rentals_statement(self):
         self.assertEqual(
-                "Rental record for David\n" +
+                "Rental record for Jim\n" +
                 "Amount owed is 0\n" +
                 "You earned 0 frequent renter points",
-                CustomerBuilder(name="David").build().statement()
+                CustomerBuilder().build().statement()
                 )
 
     def test_one_new_release_statement(self):
         self.assertEqual(
-                "Rental record for John\n" +
-                "\tGodfather 4 9.0\n" +
-                "Amount owed is 9.0\n" +
-                "You earned 2 frequent renter points",
-                CustomerBuilder(name="John", builder=RentalBuilder(
-                    builder=MovieBuilder(movietype=TYPE_NEW_RELEASE)
-                    )
+                "Rental record for Jim\n" +
+                "\tNone\n" +
+                "Amount owed is 0.0\n" +
+                "You earned 0 frequent renter points",
+                CustomerBuilder(name="Jim", rental=Mock(spec_set=Rental)
                     ).build().statement()
                 )
 

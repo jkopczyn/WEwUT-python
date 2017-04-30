@@ -1,3 +1,4 @@
+from customer import Customer
 from movie import Movie
 from movie import MOVIE_TYPES
 from movie import TYPE_NEW_RELEASE
@@ -6,6 +7,24 @@ from movie import TYPE_CHILDREN
 from movie import TYPE_UNKNOWN
 from rental import Rental
 from store  import Store
+
+class CustomerBuilder(object):
+    def __init__(self, name="Jim",
+            rentals=[], rental=None,
+            builders=[], builder=None):
+        self.name = name
+        self.rentals = rentals
+        if rental:
+            self.rentals += [rental]
+        self.builders = builders
+        if builder:
+            self.builders += [builder]
+
+    def build(self):
+        result = Customer(self.name)
+        for rental in (self.rentals + [b.build() for b in self.builders]):
+            result.add_rental(rental)
+        return result
 
 class RentalBuilder(object):
     def __init__(self, movie=None, days=3, builder=None):
