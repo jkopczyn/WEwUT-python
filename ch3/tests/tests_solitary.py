@@ -15,15 +15,23 @@ import mock
 from unittest import TestCase
 import unittest
 
-class RentalMock(Mock):
-    def __call__(self, *args, **kwargs):
-        super(RentalMock, self).__call__(*args, spec_set=Rental, **kwargs)
-        self.get_line_item.return_value=" "
-        self.get_charge.return_value=0.0
-        self.get_points.return_value=0
-        return self
+#class RentalMock(Mock):
+#    def __init__(self, *args, **kwargs):
+#        attrs = {"get_line_item.return_value": " ",
+#                "get_charge.return_value": 0.0,
+#                "get_points.return_value": 0,
+#                }
+#        attrs.update(kwargs)
+#        super(RentalMock, self).__init__(spec_set=Rental, *args, **attrs)
 
-a = RentalMock()
+def create_rental_mock(*args, **kwargs):
+    attrs = {"get_line_item.return_value": " ",
+            "get_charge.return_value": 0.0,
+            "get_points.return_value": 0,
+            }
+    attrs.update(kwargs)
+    return Mock(spec_set=Rental, *args, **attrs)
+
 
 class TestCustomer(TestCase):
     def test_get_name(self):
@@ -43,10 +51,10 @@ class TestCustomer(TestCase):
     def test_one_new_release_statement(self):
         self.assertEqual(
                 "Rental record for Jim\n" +
-                "\tNone\n" +
+                "\t \n" +
                 "Amount owed is 0.0\n" +
                 "You earned 0 frequent renter points",
-                CustomerBuilder(rental=RentalMock()).build().statement()
+                CustomerBuilder(rental=create_rental_mock()).build().statement()
                 )
 
     def test_all_rental_types_statement(self):
