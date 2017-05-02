@@ -141,6 +141,38 @@ class TestCustomer(TestCase):
                     ]).build().get_total_charge()
                 )
 
+    def test_points_for_no_rentals(self):
+        self.assertEqual(0, CustomerBuilder().build().get_total_points())
+
+
+    def test_points_for_two_rentals(self):
+        self.assertEqual(
+                4,
+                CustomerBuilder(rentals=[
+                    create_rental_mock(**{"get_points.return_value": 2}),
+                    create_rental_mock(**{"get_points.return_value": 2})
+                    ]).build().get_total_points()
+                )
+
+    def test_points_for_three_rentals(self):
+        self.assertEqual(
+                6,
+                CustomerBuilder(rentals=[
+                    create_rental_mock(**{"get_points.return_value": 2}),
+                    create_rental_mock(**{"get_points.return_value": 2}),
+                    create_rental_mock(**{"get_points.return_value": 2})
+                    ]).build().get_total_points()
+                )
+
+    def test_points_for_two_different_rentals(self):
+        self.assertEqual(
+                3,
+                CustomerBuilder(rentals=[
+                    create_rental_mock(**{"get_points.return_value": 2}),
+                    create_rental_mock(**{"get_points.return_value": 1})
+                    ]).build().get_total_points()
+                )
+
 class TestMovie(TestCase):
     def test_invalid_title(self):
         with self.assertRaises(TypeError):
