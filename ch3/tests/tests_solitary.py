@@ -238,6 +238,16 @@ class TestMovie(TestCase):
         self.assertEqual(1,
                 MovieBuilder(movietype=TYPE_REGULAR).build().get_points(3))
 
+class TestCustomerAndFriends(TestCase):
+    def test_customer_statement_using_collaborators_here(self):
+        print ("\ntest_customer_statement_using_collaborators_here:\n"+
+                "\tThis is tested in tests_sociable; \n"+
+                "\tuse the two all-rental-types variations")
+
+#To better test the paths related to Customer and the statement, WEwUT
+#   recommends that a sociable test be run for each happy path,
+#   after running the solitary tests, covering as much ground as feasible.
+#   This is something intermediate between unit and integration tests.
 
 if __name__ == '__main__':
     unittest.main()
