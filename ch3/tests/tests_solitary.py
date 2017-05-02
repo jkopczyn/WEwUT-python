@@ -15,17 +15,8 @@ import mock
 from unittest import TestCase
 import unittest
 
-#class RentalMock(Mock):
-#    def __init__(self, *args, **kwargs):
-#        attrs = {"get_line_item.return_value": " ",
-#                "get_charge.return_value": 0.0,
-#                "get_points.return_value": 0,
-#                }
-#        attrs.update(kwargs)
-#        super(RentalMock, self).__init__(spec_set=Rental, *args, **attrs)
-
 def create_rental_mock(*args, **kwargs):
-    attrs = {"get_line_item.return_value": " ",
+    attrs = {"get_line_item.return_value": "---",
             "get_charge.return_value": 0.0,
             "get_points.return_value": 0,
             }
@@ -48,52 +39,33 @@ class TestCustomer(TestCase):
                 CustomerBuilder().build().statement()
                 )
 
-    def test_one_new_release_statement(self):
+    def test_one_movie_statement(self):
         self.assertEqual(
                 "Rental record for Jim\n" +
-                "\t \n" +
+                "\t---\n" +
                 "Amount owed is 0.0\n" +
                 "You earned 0 frequent renter points",
                 CustomerBuilder(rental=create_rental_mock()).build().statement()
                 )
 
-    def test_all_rental_types_statement(self):
+    def test_two_movie_statement(self):
         self.assertEqual(
-                "Rental record for Pat\n" +
-                "\tGodfather 4 9.0\n" +
-                "\tScarface 3.5\n" +
-                "\tLion King 1.5\n" +
-                "Amount owed is 14.0\n" +
-                "You earned 4 frequent renter points",
-                CustomerBuilder(name="Pat", builders=[
-                    RentalBuilder(
-                        builder=MovieBuilder(movietype=TYPE_NEW_RELEASE)
-                    ),
-                    RentalBuilder(
-                        builder=MovieBuilder(name="Scarface",
-                            movietype=TYPE_REGULAR)
-                    ),
-                    RentalBuilder(
-                        builder=MovieBuilder(name="Lion King",
-                            movietype=TYPE_CHILDREN)
-                    )]).build().statement()
+                "Rental record for Jim\n" +
+                "\t---\n\t---\n" +
+                "Amount owed is 0.0\n" +
+                "You earned 0 frequent renter points",
+                CustomerBuilder(rentals=[create_rental_mock(),
+                    create_rental_mock()]).build().statement()
                 )
 
-    def test_new_release_and_regular_statement(self):
+    def test_three_movie_statement(self):
         self.assertEqual(
-                "Rental record for Steve\n" +
-                "\tGodfather 4 9.0\n" +
-                "\tScarface 3.5\n" +
-                "Amount owed is 12.5\n" +
-                "You earned 3 frequent renter points",
-                CustomerBuilder(name="Steve", builders=[
-                    RentalBuilder(
-                        builder=MovieBuilder(movietype=TYPE_NEW_RELEASE)
-                    ),
-                    RentalBuilder(
-                        builder=MovieBuilder(name="Scarface",
-                            movietype=TYPE_REGULAR)
-                    )
+                "Rental record for Jim\n" +
+                "\t---\n\t---\n\t---\n" +
+                "Amount owed is 0.0\n" +
+                "You earned 0 frequent renter points",
+                CustomerBuilder(rentals=[create_rental_mock(),
+                    create_rental_mock(), create_rental_mock()
                     ]).build().statement()
                 )
 
