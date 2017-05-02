@@ -178,5 +178,39 @@ class TestMovie(TestCase):
         with self.assertRaises(TypeError):
             MovieBuilder(movietype=TYPE_UNKNOWN).build()
 
+    def test_charge_for_children_movies(self):
+        self.assertEqual(1.5,
+                MovieBuilder(movietype=TYPE_CHILDREN).build().get_charge(1))
+        self.assertEqual(1.5,
+                MovieBuilder(movietype=TYPE_CHILDREN).build().get_charge(2))
+        self.assertEqual(1.5,
+                MovieBuilder(movietype=TYPE_CHILDREN).build().get_charge(3))
+        self.assertEqual(3.0,
+                MovieBuilder(movietype=TYPE_CHILDREN).build().get_charge(4))
+        self.assertEqual(4.5,
+                MovieBuilder(movietype=TYPE_CHILDREN).build().get_charge(5))
+
+    def test_charge_for_new_release_movies(self):
+        self.assertEqual(3.0,
+                MovieBuilder(movietype=TYPE_NEW_RELEASE).build().get_charge(1))
+        self.assertEqual(6.0,
+                MovieBuilder(movietype=TYPE_NEW_RELEASE).build().get_charge(2))
+        self.assertEqual(9.0,
+                MovieBuilder(movietype=TYPE_NEW_RELEASE).build().get_charge(3))
+        self.assertEqual(12.0,
+                MovieBuilder(movietype=TYPE_NEW_RELEASE).build().get_charge(4))
+
+    def test_charge_for_regular_movies(self):
+        self.assertEqual(2.0,
+                MovieBuilder(movietype=TYPE_REGULAR).build().get_charge(1))
+        self.assertEqual(2.0,
+                MovieBuilder(movietype=TYPE_REGULAR).build().get_charge(2))
+        self.assertEqual(3.5,
+                MovieBuilder(movietype=TYPE_REGULAR).build().get_charge(3))
+        self.assertEqual(5.0,
+                MovieBuilder(movietype=TYPE_REGULAR).build().get_charge(4))
+        self.assertEqual(6.5,
+                MovieBuilder(movietype=TYPE_REGULAR).build().get_charge(5))
+
 if __name__ == '__main__':
     unittest.main()
