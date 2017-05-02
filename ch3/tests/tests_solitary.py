@@ -212,5 +212,32 @@ class TestMovie(TestCase):
         self.assertEqual(6.5,
                 MovieBuilder(movietype=TYPE_REGULAR).build().get_charge(5))
 
+    def test_points_for_children_movies(self):
+        self.assertEqual(1,
+                MovieBuilder(movietype=TYPE_CHILDREN).build().get_points(1))
+        self.assertEqual(1,
+                MovieBuilder(movietype=TYPE_CHILDREN).build().get_points(2))
+        self.assertEqual(1,
+                MovieBuilder(movietype=TYPE_CHILDREN).build().get_points(3))
+
+    def test_points_for_new_release_movies(self):
+        self.assertEqual(1,
+                MovieBuilder(movietype=TYPE_NEW_RELEASE).build().get_points(1))
+        self.assertEqual(2,
+                MovieBuilder(movietype=TYPE_NEW_RELEASE).build().get_points(2))
+        self.assertEqual(2,
+                MovieBuilder(movietype=TYPE_NEW_RELEASE).build().get_points(3))
+        self.assertEqual(2,
+                MovieBuilder(movietype=TYPE_NEW_RELEASE).build().get_points(4))
+
+    def test_points_for_regular_movies(self):
+        self.assertEqual(1,
+                MovieBuilder(movietype=TYPE_REGULAR).build().get_points(1))
+        self.assertEqual(1,
+                MovieBuilder(movietype=TYPE_REGULAR).build().get_points(2))
+        self.assertEqual(1,
+                MovieBuilder(movietype=TYPE_REGULAR).build().get_points(3))
+
+
 if __name__ == '__main__':
     unittest.main()
