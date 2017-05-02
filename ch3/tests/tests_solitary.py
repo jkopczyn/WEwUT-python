@@ -39,7 +39,7 @@ class TestCustomer(TestCase):
                 CustomerBuilder().build().statement()
                 )
 
-    def test_one_movie_statement(self):
+    def test_one_rental_statement(self):
         self.assertEqual(
                 "Rental record for Jim\n" +
                 "\t---\n" +
@@ -48,7 +48,7 @@ class TestCustomer(TestCase):
                 CustomerBuilder(rental=create_rental_mock()).build().statement()
                 )
 
-    def test_two_movie_statement(self):
+    def test_two_rentals_statement(self):
         self.assertEqual(
                 "Rental record for Jim\n" +
                 "\t---\n\t---\n" +
@@ -58,7 +58,7 @@ class TestCustomer(TestCase):
                     create_rental_mock()]).build().statement()
                 )
 
-    def test_three_movie_statement(self):
+    def test_three_rentals_statement(self):
         self.assertEqual(
                 "Rental record for Jim\n" +
                 "\t---\n\t---\n\t---\n" +
@@ -71,61 +71,41 @@ class TestCustomer(TestCase):
 
     def test_no_rentals_html_statement(self):
         self.assertEqual(
-                "<h1>Rental record for <em>David</em></h1>\n" +
+                "<h1>Rental record for <em>Jim</em></h1>\n" +
                 "<p>Amount owed is <em>0</em></p>\n" +
                 "<p>You earned <em>0 frequent renter points</em></p>",
-                CustomerBuilder(name="David").build().html_statement()
+                CustomerBuilder().build().html_statement()
                 )
 
-    def test_one_new_release_html_statement(self):
+    def test_one_rental_html_statement(self):
         self.assertEqual(
-                "<h1>Rental record for <em>John</em></h1>\n" +
-                "<p>Godfather 4 9.0</p>\n" +
-                "<p>Amount owed is <em>9.0</em></p>\n" +
-                "<p>You earned <em>2 frequent renter points</em></p>",
-                CustomerBuilder(name="John", builder=RentalBuilder(
-                    builder=MovieBuilder(movietype=TYPE_NEW_RELEASE)
-                    )
+                "<h1>Rental record for <em>Jim</em></h1>\n" +
+                "<p>---</p>\n" +
+                "<p>Amount owed is <em>0.0</em></p>\n" +
+                "<p>You earned <em>0 frequent renter points</em></p>",
+                CustomerBuilder(rental=create_rental_mock()
                     ).build().html_statement()
                 )
 
-    def test_all_rental_types_html_statement(self):
+    def test_two_rentals_html_statement(self):
         self.assertEqual(
-                "<h1>Rental record for <em>Pat</em></h1>\n" +
-                "<p>Godfather 4 9.0</p>\n" +
-                "<p>Scarface 3.5</p>\n" +
-                "<p>Lion King 1.5</p>\n" +
-                "<p>Amount owed is <em>14.0</em></p>\n" +
-                "<p>You earned <em>4 frequent renter points</em></p>",
-                CustomerBuilder(name="Pat", builders=[
-                    RentalBuilder(
-                        builder=MovieBuilder(movietype=TYPE_NEW_RELEASE)
-                    ),
-                    RentalBuilder(
-                        builder=MovieBuilder(name="Scarface",
-                            movietype=TYPE_REGULAR)
-                    ),
-                    RentalBuilder(
-                        builder=MovieBuilder(name="Lion King",
-                            movietype=TYPE_CHILDREN)
-                    )]).build().html_statement()
+                "<h1>Rental record for <em>Jim</em></h1>\n" +
+                "<p>---</p>\n<p>---</p>\n" +
+                "<p>Amount owed is <em>0.0</em></p>\n" +
+                "<p>You earned <em>0 frequent renter points</em></p>",
+                CustomerBuilder(rentals=[create_rental_mock(),
+                    create_rental_mock()
+                    ]).build().html_statement()
                 )
 
-    def test_new_release_and_regular_html_statement(self):
+    def test_three_rentals_html_statement(self):
         self.assertEqual(
-                "<h1>Rental record for <em>Steve</em></h1>\n" +
-                "<p>Godfather 4 9.0</p>\n" +
-                "<p>Scarface 3.5</p>\n" +
-                "<p>Amount owed is <em>12.5</em></p>\n" +
-                "<p>You earned <em>3 frequent renter points</em></p>",
-                CustomerBuilder(name="Steve", builders=[
-                    RentalBuilder(
-                        builder=MovieBuilder(movietype=TYPE_NEW_RELEASE)
-                    ),
-                    RentalBuilder(
-                        builder=MovieBuilder(name="Scarface",
-                            movietype=TYPE_REGULAR)
-                    )
+                "<h1>Rental record for <em>Jim</em></h1>\n" +
+                "<p>---</p>\n<p>---</p>\n<p>---</p>\n" +
+                "<p>Amount owed is <em>0.0</em></p>\n" +
+                "<p>You earned <em>0 frequent renter points</em></p>",
+                CustomerBuilder(rentals=[create_rental_mock(),
+                    create_rental_mock(), create_rental_mock()
                     ]).build().html_statement()
                 )
 
