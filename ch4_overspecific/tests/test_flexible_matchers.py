@@ -9,7 +9,7 @@ from unittest import TestCase
 import unittest
 
 def title_override(title, *args):
-    if args[:2] == ("{0} starring {1} {2}", 2):
+    if type(args[0]) == str and type(args[1]) == int:
         return title
     return mock.DEFAULT
 
@@ -20,9 +20,9 @@ class TestCustomer(TestCase):
         lionking = Mock(spec_set=Movie, **{"get_title.side_effect":
             lambda *x: title_override("Lion King", *x) })
         godfather_rental = Mock(spec_set=Rental, **{"get_movie.side_effect":
-            lambda b: godfather if b else DEFAULT})
+            lambda b: godfather if (type(b) == bool) else DEFAULT})
         lionking_rental = Mock(spec_set=Rental, **{"get_movie.side_effect":
-            lambda b: lionking if b else DEFAULT})
+            lambda b: lionking if (type(b) == bool) else DEFAULT})
         self.assertEqual(
                 "Recent rentals:\nGodfather 4\nLion King",
                 CustomerBuilder(rentals=[godfather_rental, lionking_rental]
@@ -36,11 +36,11 @@ class TestCustomer(TestCase):
         mulan = Mock(spec_set=Movie, **{"get_title.side_effect":
             lambda *x: title_override("Mulan", *x) })
         godfather_rental = Mock(spec_set=Rental, **{"get_movie.side_effect":
-            lambda b: godfather if b else DEFAULT})
+            lambda b: godfather if (type(b) == bool) else DEFAULT})
         lionking_rental = Mock(spec_set=Rental, **{"get_movie.side_effect":
-            lambda b: lionking if b else DEFAULT})
+            lambda b: lionking if (type(b) == bool) else DEFAULT})
         mulan_rental = Mock(spec_set=Rental, **{"get_movie.side_effect":
-            lambda b: mulan if b else DEFAULT})
+            lambda b: mulan if (type(b) == bool) else DEFAULT})
         self.assertEqual(
                 "Recent rentals:\nGodfather 4\nLion King\nMulan",
                 CustomerBuilder(
@@ -57,13 +57,13 @@ class TestCustomer(TestCase):
         tron = Mock(spec_set=Movie, **{"get_title.side_effect":
             lambda *x: title_override("Tron", *x) })
         godfather_rental = Mock(spec_set=Rental, **{"get_movie.side_effect":
-            lambda b: godfather if b else DEFAULT})
+            lambda b: godfather if (type(b) == bool) else DEFAULT})
         lionking_rental = Mock(spec_set=Rental, **{"get_movie.side_effect":
-            lambda b: lionking if b else DEFAULT})
+            lambda b: lionking if (type(b) == bool) else DEFAULT})
         mulan_rental = Mock(spec_set=Rental, **{"get_movie.side_effect":
-            lambda b: mulan if b else DEFAULT})
+            lambda b: mulan if (type(b) == bool) else DEFAULT})
         tron_rental = Mock(spec_set=Rental, **{"get_movie.side_effect":
-            lambda b: tron if b else DEFAULT})
+            lambda b: tron if (type(b) == bool) else DEFAULT})
         self.assertEqual(
                 "Recent rentals:\nGodfather 4\nLion King\nMulan",
                 CustomerBuilder(rentals=[godfather_rental, lionking_rental,
