@@ -8,7 +8,7 @@ class Store(object):
                 self.stock[m] = 1
 
     def get_availability(self, movie):
-        return (movie in self.stock and self.stock[movie] > 0)
+        return (movie in self.stock and self.stock[movie])
 
     def check_out(self, movie):
         if movie not in self.stock:
