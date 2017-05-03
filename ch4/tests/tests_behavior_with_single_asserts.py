@@ -37,3 +37,12 @@ class TestStore(TestCase):
         store = StoreBuilder(movies=[movie,movie]).build()
         store.check_out(movie)
         self.assertEqual(1, store.get_availability(movie))
+
+class TestRentalAndFriends(TestCase):
+    def test_store_availability_changes_on_rental(self):
+        movie = Mock(spec_set=Movie)
+        store = StoreBuilder(movies=[movie,movie]).build()
+        rental = RentalBuilder(movie=movie).build()
+        rental.start(store)
+        RentalBuilder().build().start(store)
+        self.assertEqual(1, store.get_availability(movie))
