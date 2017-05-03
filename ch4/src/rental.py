@@ -16,7 +16,7 @@ class Rental(object):
     def start(self, store):
         if store.get_availability(self.movie):
             store.check_out(self.movie)
-            self.started = True
+            self.starte = True
         return self.started
 
     def is_started(self):
