@@ -11,11 +11,11 @@ class Customer(object):
 
     def recent_rentals(self):
         prefix = "Recent rentals:"
-        return (prefix + "\n".join("", *[r.get_movie(
-            true
+        return (prefix + "\n".join([""]+[r.get_movie(
+            True
             ).get_title(
                 "{0} starring {1} {2}", 2
-                ) for r in rentals[:3]]))
+                ) for r in self.rentals[:3]]))
 
 
     def get_total_charge(self):
